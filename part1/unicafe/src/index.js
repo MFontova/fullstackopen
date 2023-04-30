@@ -13,11 +13,55 @@ const Button = ({text, onClick}) => {
   )
 }
 
-const Statistics = ({text, number}) => {
+const Statistics = ({good, neutral, bad}) => {
+  const sumAll = () => {
+    return good + neutral + bad
+  }
+
+  const average = () => {
+    return (good - bad)/sumAll()
+  }
+
+  const positive = () => {
+    return ((good/sumAll())*100).toString() + '%'
+  }
+
+  if(sumAll() === 0){
+    return (
+      <p>No feedback given</p>
+    )
+  }
+
   return (
-    <>
-      <p>{text}: {number}</p>
-    </>
+    <table>
+      <tbody>
+      <Statistic text="good" number={good} />
+      <Statistic text="neutral" number={neutral} />
+      <Statistic text="bad" number={bad} />
+      <Statistic text="all" number={sumAll()} />
+      <Statistic text="average" number={average()} />
+      <Statistic text="positive" number={positive()} />
+      </tbody>
+    </table>
+  )
+  // return (
+  //   <>
+  //     <Statistic text="good" number={good} />
+  //     <Statistic text="neutral" number={neutral} />
+  //     <Statistic text="bad" number={bad} />
+  //     <Statistic text="all" number={sumAll()} />
+  //     <Statistic text="average" number={average()} />
+  //     <Statistic text="positive" number={positive()} />
+  //   </>
+  // )
+}
+
+const Statistic = ({text, number}) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{number}</td>
+    </tr>
   )
 }
 
@@ -44,9 +88,7 @@ const App = () => {
       <Button text="Neutral" onClick={addNeutral} />
       <Button text="Bad" onClick={addBad} />
       <Header text="statistics" />
-      <Statistics text="good" number={good} />
-      <Statistics text="neutral" number={neutral} />
-      <Statistics text="bad" number={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
