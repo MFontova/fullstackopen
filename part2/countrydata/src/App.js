@@ -23,10 +23,14 @@ function App() {
     setNewFilter(event.target.value)
   }
 
+  const viewClickHandle = (event) => {
+    setNewFilter(event.target.value)
+  }
+
   return (
     <div>
       <Filter filterInputHandler={filterInputHandler} />
-      <CountriesList countries={filterCountries(newCountries, newFilter)} />
+      <CountriesList viewClickHandle={viewClickHandle} countries={filterCountries(newCountries, newFilter) } />
     </div>
   );
 }
