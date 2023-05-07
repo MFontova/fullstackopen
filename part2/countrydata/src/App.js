@@ -6,7 +6,6 @@ import CountriesList from "./components/CountriesList"
 function App() {
   const [newFilter, setNewFilter] = useState('')
   const [newCountries, setNewCountries] = useState([])
-  const [newWeather, setNewWeather] = useState([])
   
   useEffect(() => {
     axios

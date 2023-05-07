@@ -1,10 +1,12 @@
-
-
-const Weather = ({city}) => {
-
+const Weather = ({city, weather}) => {
+    if(weather === null){
+        return null
+    }
     return (
         <div>
-            Weather in {city}:
+            <p>Weather in {city}:</p>
+            <p>Temperature: {weather.main.temp} </p>
+            <p>Wind speed: {weather.wind.speed} </p>
         </div>
     )
 }
