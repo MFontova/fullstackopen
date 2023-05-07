@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
 import personsService from './services/persons'
 import NotificationSuccess from './components/NotificationSuccess'
 
@@ -18,7 +17,7 @@ const App = () => {
     personsService.getAll().then(initialPersons => {
       setPersons(initialPersons)
     })
-  })
+  }, [persons, errorMessage])
 
   const inputNameHandler = (event) =>{
     const input = event.target.value
@@ -35,13 +34,23 @@ const App = () => {
     personsService.getById(event.target.value)
       .then(response => {
         console.log(response)
-        if(window.confirm(`Delete ${response.name}?`)){
+        if(window.confirm(`Delete ${response.name}?`) === true){
           personsService.remove(event.target.value)
+            .then(() => {
+              setErrorMessage(`Deleted ${response.name}`)
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 5000)
+            }
+            )
+            .catch(error => {
+              setErrorMessage(`${response.name} has already been removed from the server`)
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 5000)
+            })
         }
       })
-
-    // if(confirm('Delete'))
-    // personsService.remove(event.target.value)
   }
 
   const nameInPersons = persons.some(function(element) {
