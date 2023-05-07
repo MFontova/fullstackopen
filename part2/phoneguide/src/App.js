@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
 import personsService from './services/persons'
+import NotificationSuccess from './components/NotificationSuccess'
 
 const App = () => {
   
@@ -11,6 +12,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
   useEffect(() => {
     personsService.getAll().then(initialPersons => {
@@ -60,6 +62,11 @@ const App = () => {
         const oldPerson = persons.filter(person => person.name == newName )
         
         personsService.update(oldPerson[0].id,personObject)
+
+        setErrorMessage(`Modified ${personObject.name}`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       }
     }else{
       console.log('El nombre no existe')
@@ -70,6 +77,11 @@ const App = () => {
       personsService.create(personObject)
       setPersons(persons.concat(personObject))
       setNewName('')
+
+      setErrorMessage(`Added ${personObject.name}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -82,6 +94,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter filter={searchInputHandler} />
+      <NotificationSuccess message={errorMessage} />
       <h2>Add a new</h2>
       <PersonForm addPerson={addPerson} inputNameHandler={inputNameHandler} inputNumberHandler={inputNumberHandler} />
       <h2>Numbers</h2>
