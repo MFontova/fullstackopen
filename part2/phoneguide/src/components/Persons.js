@@ -1,8 +1,8 @@
 import Person from "./Person"
 
-const Persons = ({personsList}) =>{
+const Persons = ({personsList, deleteButtonHandler}) =>{
     return (
-        personsList.map(person => <Person key={person.name} person={person} />)
+        personsList.map(person => <Person deleteButtonHandler={deleteButtonHandler} key={person.name} person={person} />)
     )
 }
 

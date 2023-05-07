@@ -1,6 +1,9 @@
-const Person = ({person}) => {
+const Person = ({person, deleteButtonHandler}) => {
     return(
-        <p key={person.name}>{person.name}: {person.number}</p>
+        <div>
+            <p key={person.name}>{person.name}: {person.number}</p>
+            <button key={person.id} value={person.id} onClick={deleteButtonHandler}>Delete</button>
+        </div>
     )
 }
 
