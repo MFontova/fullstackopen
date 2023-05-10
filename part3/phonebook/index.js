@@ -21,6 +21,19 @@ let persons = [
     },
 ]
 
+const generateId = () => {
+    const id = Math.floor(Math.random() * 100000)
+    console.log(id)
+
+    return id
+
+    // const maxId = persons.length > 0
+    //     ? Math.max(...persons.map(p => p.id))
+    //     : 0
+
+    // return maxId + 1
+}
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
@@ -47,6 +60,22 @@ app.delete('/api/persons/:id', (request, response) => {
 
     console.log(persons)
     response.status(204).end()
+})
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+
+    const person = {
+        id: generateId(),
+        name: body.name,
+        number: body.number
+    }
+
+    persons = persons.concat(person)
+
+    response.json(person)
+
+    console.log(persons)
 })
 
 const PORT = 3001
