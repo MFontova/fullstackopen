@@ -30,6 +30,16 @@ app.get('/info', (request, response) => {
     response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${date}</p>`)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const note = persons.find(note => note.id === id)
+
+    if(note) {
+        response.json(note)
+    } else {
+        response.status(404).end()
+    }
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
