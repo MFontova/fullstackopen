@@ -15,7 +15,7 @@ let persons = [
         number: "666555444"
     },
     {
-        id: 1,
+        id: 3,
         name: "Roger Fontova",
         number: "666999333"
     },
@@ -25,7 +25,10 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
-
+app.get('/info', (request, response) => {
+    const date = Date()
+    response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${date}</p>`)
+})
 
 
 const PORT = 3001
