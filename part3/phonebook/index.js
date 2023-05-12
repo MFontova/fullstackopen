@@ -3,7 +3,19 @@ var morgan = require("morgan")
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
+
+morgan.token('body', function (req, res) {return JSON.stringify(req.body)})
+app.use(morgan(function(tokens, req, res) {
+    console.log(req)
+    return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'), '-',
+        tokens['response-time'](req, res), 'ms',
+        tokens.body(req, res)
+    ].join(' ')
+}))
 
 let persons = [
     {
@@ -25,15 +37,7 @@ let persons = [
 
 const generateId = () => {
     const id = Math.floor(Math.random() * 100000)
-    console.log(id)
-
     return id
-
-    // const maxId = persons.length > 0
-    //     ? Math.max(...persons.map(p => p.id))
-    //     : 0
-
-    // return maxId + 1
 }
 
 app.get('/api/persons', (request, response) => {
@@ -60,7 +64,7 @@ app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     persons = persons.filter(person => person.id !== id)
 
-    console.log(persons)
+    // console.log(persons)
     response.status(204).end()
 })
 
@@ -91,7 +95,7 @@ app.post('/api/persons', (request, response) => {
 
     response.json(person)
 
-    console.log(persons)
+    // console.log(persons)
 })
 
 const PORT = 3001
