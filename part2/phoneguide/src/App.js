@@ -17,7 +17,7 @@ const App = () => {
     personsService.getAll().then(initialPersons => {
       setPersons(initialPersons)
     })
-  }, [persons, errorMessage])
+  }, [])
 
   const inputNameHandler = (event) =>{
     const input = event.target.value
